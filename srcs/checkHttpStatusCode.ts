@@ -8,7 +8,7 @@ function checkHttpStatusCode() {
 	try {
 		if (SIZE_CELL.isBlank() || typeof LIST_SIZE != 'number' || LIST_SIZE < 0)
 			throw new Error('List Size Error: 取得数に誤りがあります。');
-		const HTTP_CELL = MAIN_SHEET.getRange(3, 13, LIST_SIZE, 1).getValues();
+		const HTTP_CELL = MAIN_SHEET.getRange(3, 14, LIST_SIZE, 1).getValues();
 		let index: int = 0;
 		index = getIndexOfTargetCell(HTTP_CELL, LIST_SIZE, index);
 		const DOMAIN_CELL = MAIN_SHEET.getRange(3, 5, LIST_SIZE, 1).getValues();
@@ -25,10 +25,10 @@ function checkHttpStatusCode() {
 				err = e.message.split(':');
 				value = err[0];
 			}
-			MAIN_SHEET.getRange(3 + index, 13).setValue(value);
+			MAIN_SHEET.getRange(3 + index, 14).setValue(value);
 			const NOW = new Date();
 			const TIMESTAMP = `${NOW.getFullYear()}/${NOW.getMonth()+1}/${NOW.getDate()} ${NOW.getHours()}:${NOW.getMinutes()}:${NOW.getSeconds()}`;
-			MAIN_SHEET.getRange(3 + index, 14).setValue(TIMESTAMP);
+			MAIN_SHEET.getRange(3 + index, 15).setValue(TIMESTAMP);
 			index++;
 			if (HTTP_CELL[index][0]) {
 				index = getIndexOfTargetCell(HTTP_CELL, LIST_SIZE, index);
