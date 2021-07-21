@@ -6,11 +6,11 @@ function deleteAddressUnavailable() {
 	try {
 		if (SIZE_CELL.isBlank() || typeof LIST_SIZE != 'number' || LIST_SIZE < 0)
 			throw new Error('List Size Error: 取得数に誤りがあります。');
-		const HTTP_CELL = MAIN_SHEET.getRange(3, 14, LIST_SIZE, 1).getValues();
+		const HTTP_CELL = MAIN_SHEET.getRange(3, 9, LIST_SIZE, 1).getValues();
 		let index: int = 0;
 		while (index < LIST_SIZE) {
 			if (/Address unavailable|使用できないアドレス/.test(HTTP_CELL[index][0])) {
-				MAIN_SHEET.getRange(`N${3 + index}`).clearContent();
+				MAIN_SHEET.getRange(`I${3 + index}`).clearContent();
 			}
 			index++;
 		}
