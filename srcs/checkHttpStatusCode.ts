@@ -14,7 +14,7 @@ function checkHttpStatusCode() {
 				return ;
 			}
 			if (data[1] == false || data[2] == false || data[3] == false) {
-				MAIN_SHEET.getRange(3 + index, 9).setValue('FALSE');
+				MAIN_SHEET.getRange(3 + index, 9).setValue('-');
 				return ;
 			}
 			const URL = `https://${data[0]}`;
