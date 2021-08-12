@@ -19,14 +19,13 @@ function checkHttpStatusCode() {
 			}
 
 			const NOW = new Date();
-			const TIMESTAMP = `${NOW.getFullYear()}/${NOW.getMonth()+1}/${NOW.getDate()} ${NOW.getHours()}:${NOW.getMinutes()}:${NOW.getSeconds()}`;
 			let diff = NOW.getTime() - START.getTime();
 			if (diff / 1000 > 240)
 				throw new Error('checkHttpStatusCode: Timeout 5 min') ;
 
 			if (data[1] == false || data[2] == false || data[3] == false) {
 				MAIN_SHEET.getRange(3 + index, DOMAIN_COL + 4).setValue('-');
-				MAIN_SHEET.getRange(3 + index, DOMAIN_COL + 5).setValue(TIMESTAMP);
+				MAIN_SHEET.getRange(3 + index, DOMAIN_COL + 5).setValue('-');
 				return ;
 			}
 			const URL = `https://${data[0]}`;
@@ -34,15 +33,20 @@ function checkHttpStatusCode() {
 				muteHttpExceptions: true
 			};
 			let value: string;
+			let title: string;
 			try {
 				let response = UrlFetchApp.fetch(URL, options);
 				value = response.getResponseCode();
+				const CONTENT = response.getContentText('UTF-8');
+				title = Parser.data(CONTENT).from('<title>').to('</title>').build();
 			} catch (e) {
 				err = e.message.split(':');
 				value = err[0];
+				title = '-';
 			}
 			MAIN_SHEET.getRange(3 + index, DOMAIN_COL + 4).setValue(value);
-			MAIN_SHEET.getRange(3 + index, DOMAIN_COL + 5).setValue(TIMESTAMP);
+			MAIN_SHEET.getRange(3 + index, DOMAIN_COL + 5).setValue(title);
+			console.log(`index: ${i}: ${value}: ${title}`);
 		});
 	} catch (e) {
 		console.log(`FINISH: index: ${i}: ${e.message}`);
